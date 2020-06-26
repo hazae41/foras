@@ -5,7 +5,7 @@ WebAssembly powered Deflate compression for Deno, written in Rust.
 ## Usage
 
 ```typescript
-import { deflate, inflate } from "https://raw.githubusercontent.com/hazae41/denoflate/mod.ts";
+import { deflate, inflate } from "https://raw.githubusercontent.com/hazae41/denoflate/master/mod.ts";
 
 const bytes = new Uint8Array([1, 2, 3]);
 const compressed = deflate(bytes);
