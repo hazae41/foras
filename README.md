@@ -27,7 +27,3 @@ const decompressed = inflate(compressed);
 - Build
 
       wasm-pack build --target web --release
-
-- Remove `init` and `load` from `pkg/deflate.js`
-
-- Replace `let wasm;` by `let wasm = await Wasm("deflate_bg.wasm");`
