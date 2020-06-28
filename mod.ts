@@ -1,7 +1,7 @@
 export * from "./pkg/deflate.js";
 import init from "./pkg/deflate.js";
 
-export const name = "denoflate";
+export default "denoflate";
 
 async function read(path: string) {
   const url = new URL(path, import.meta.url);

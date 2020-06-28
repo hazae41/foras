@@ -1,4 +1,4 @@
-import { name } from "../mod.ts";
+import name from "../mod.ts";
 
 let wasm;
 
