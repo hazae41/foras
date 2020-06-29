@@ -1,5 +1,3 @@
-import name from "../mod.ts";
-
 let wasm;
 
 let cachegetUint8Memory0 = null;

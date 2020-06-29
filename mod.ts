@@ -1,7 +1,7 @@
 export * from "./pkg/deflate.js";
-import init from "./pkg/deflate.js";
 
-export default "denoflate";
+// @deno-types=./pkg/deflate.d.ts
+import init from "./pkg/deflate.js";
 
 async function read(path: string) {
   const url = new URL(path, import.meta.url);
