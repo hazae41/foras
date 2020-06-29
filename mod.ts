@@ -1,7 +1,8 @@
-export * from "./pkg/deflate.js";
+// @deno-types=./pkg/denoflate.d.ts
+export * from "./pkg/denoflate.js";
 
-// @deno-types=./pkg/deflate.d.ts
-import init from "./pkg/deflate.js";
+// @deno-types=./pkg/denoflate.d.ts
+import init from "./pkg/denoflate.js";
 
 async function read(path: string) {
   const url = new URL(path, import.meta.url);
@@ -14,4 +15,4 @@ async function read(path: string) {
   return await response.arrayBuffer();
 }
 
-await init(read("./pkg/deflate_bg.wasm"));
+await init(read("./pkg/denoflate_bg.wasm"));

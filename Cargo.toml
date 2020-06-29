@@ -1,5 +1,5 @@
 [package]
-name = "deflate"
+name = "denoflate"
 version = "0.1.0"
 authors = ["hazae41 <hazae41@gmail.com>"]
 edition = "2018"
