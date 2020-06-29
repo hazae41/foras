@@ -27,5 +27,3 @@ const decompressed = inflate(compressed);
 - Build
 
       wasm-pack build --target web --release
-
-- Add `import name from "../mod.ts";` to `pkg/deflate.js`
