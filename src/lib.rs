@@ -13,6 +13,9 @@ use flate2::Compression;
 
 use std::io::Write;
 
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
 #[wasm_bindgen]
 pub fn deflate(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsValue> {
     let _compression = compression

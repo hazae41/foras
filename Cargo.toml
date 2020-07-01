@@ -11,5 +11,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2.63"
+wee_alloc = "0.4.5"
 js-sys = "0.3"
 flate2 = "1.0.16"
