@@ -1,4 +1,11 @@
-import { inflate, deflate, gzip, gunzip, zlib, unzlib } from "./mod.ts";
+import {
+  inflate,
+  deflate,
+  gzip,
+  gunzip,
+  zlib,
+  unzlib,
+} from "./mod.ts";
 
 const bytes = new Uint8Array([1, 2, 3]);
 console.log(bytes);

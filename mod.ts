@@ -1,7 +1,12 @@
-// @deno-types=./pkg/denoflate.d.ts
-export * from "./pkg/denoflate.js";
+export {
+  deflate,
+  inflate,
+  gzip,
+  gunzip,
+  zlib,
+  unzlib,
+} from "./pkg/denoflate.js";
 
-// @deno-types=./pkg/denoflate.d.ts
 import init from "./pkg/denoflate.js";
 
 async function read(path: string) {
