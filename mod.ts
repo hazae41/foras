@@ -16,7 +16,8 @@ async function read(path: string) {
     return await Deno.readFile(url);
   }
 
-  return await fetch(url);
+  const res = await fetch(url)
+  return await res.arrayBuffer();
 }
 
 await init(read("./pkg/denoflate_bg.wasm"));
