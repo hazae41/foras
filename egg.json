@@ -1,0 +1,10 @@
+{
+                                "name": "denoflate",
+                                "description": "WebAssembly powered Deflate/Gzip/Zlib compression for Deno, written in Rust.",
+                                "homepage": "https://github.com/hazae41/denoflate",
+                                "files": [
+                                  "./**/*.ts",
+                                  "README.md"
+                                ],
+                                "entry": "./mod.ts"
+                              }
