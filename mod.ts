@@ -20,4 +20,10 @@ async function read(path: string) {
   return await res.arrayBuffer();
 }
 
-await init(read("./pkg/denoflate_bg.wasm"));
+let wasmInitialised;
+export async function initWasm() {
+  if (!wasmInitialised) {
+    await init(read("./pkg/denoflate_bg.wasm"));
+    wasmInitialised = true;
+  }
+}
