@@ -7,7 +7,7 @@ export {
   unzlib,
 } from "./pkg/denoflate.js";
 
-import init as wasm from "./pkg/denoflate.js";
+import wasm from "./pkg/denoflate.js";
 
 export let initialized = false;
 
@@ -24,5 +24,5 @@ async function read(path: string) {
 export async function init() {
   if (initialized) return;
   await wasm(read("./pkg/denoflate_bg.wasm"));
-  initialised = true;
+  initialized = true;
 }
