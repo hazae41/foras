@@ -1,5 +1,5 @@
 import {
-  initWasm,
+  init,
   inflate,
   deflate,
   gzip,
@@ -8,7 +8,7 @@ import {
   unzlib,
 } from "./mod.ts";
 
-await initWasm();
+await init();
 
 const bytes = new Uint8Array([1, 2, 3]);
 console.log(bytes);
