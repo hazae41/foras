@@ -8,16 +8,6 @@ export {
 } from "./pkg/denoflate.js";
 
 import init from "./pkg/denoflate.js";
+import { wasm } from "./pkg/denoflate_bg.wasm.js";
 
-async function read(path: string) {
-  const url = new URL(path, import.meta.url);
-
-  if (url.protocol === "file:") {
-    return await Deno.readFile(url);
-  }
-
-  const res = await fetch(url)
-  return await res.arrayBuffer();
-}
-
-await init(read("./pkg/denoflate_bg.wasm"));
+await init(wasm);
