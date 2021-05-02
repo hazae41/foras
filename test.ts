@@ -1,5 +1,4 @@
 import {
-  init,
   inflate,
   deflate,
   gzip,
@@ -7,8 +6,6 @@ import {
   zlib,
   unzlib,
 } from "./mod.ts";
-
-await init();
 
 const bytes = new Uint8Array([1, 2, 3]);
 console.log(bytes);

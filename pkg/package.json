@@ -1,0 +1,15 @@
+{
+  "name": "denoflate",
+  "collaborators": [
+    "hazae41 <hazae41@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "denoflate_bg.wasm",
+    "denoflate.js",
+    "denoflate.d.ts"
+  ],
+  "module": "denoflate.js",
+  "types": "denoflate.d.ts",
+  "sideEffects": false
+}

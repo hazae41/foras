@@ -1,36 +1,36 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {Uint8Array} input 
-* @param {number | undefined} compression 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @param {number | undefined} compression
+* @returns {Uint8Array}
 */
 export function deflate(input: Uint8Array, compression?: number): Uint8Array;
 /**
-* @param {Uint8Array} input 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @returns {Uint8Array}
 */
 export function inflate(input: Uint8Array): Uint8Array;
 /**
-* @param {Uint8Array} input 
-* @param {number | undefined} compression 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @param {number | undefined} compression
+* @returns {Uint8Array}
 */
 export function gzip(input: Uint8Array, compression?: number): Uint8Array;
 /**
-* @param {Uint8Array} input 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @returns {Uint8Array}
 */
 export function gunzip(input: Uint8Array): Uint8Array;
 /**
-* @param {Uint8Array} input 
-* @param {number | undefined} compression 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @param {number | undefined} compression
+* @returns {Uint8Array}
 */
 export function zlib(input: Uint8Array, compression?: number): Uint8Array;
 /**
-* @param {Uint8Array} input 
-* @returns {Uint8Array} 
+* @param {Uint8Array} input
+* @returns {Uint8Array}
 */
 export function unzlib(input: Uint8Array): Uint8Array;
 
@@ -44,6 +44,7 @@ export interface InitOutput {
   readonly gunzip: (a: number, b: number, c: number) => void;
   readonly zlib: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly unzlib: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
 }
@@ -57,4 +58,3 @@ export interface InitOutput {
 * @returns {Promise<InitOutput>}
 */
 export default function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
-        

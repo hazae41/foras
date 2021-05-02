@@ -33,8 +33,8 @@ const decompressed = inflate(compressed);
 
 - Pack .wasm to .wasm.js
 
-      deno run -A ./build.ts
+      deno run -A build.ts
 
-- Delete pkg/.gitignore
+- Delete ./pkg/.gitignore
     
-      rm pkg/.gitignore
+      rm ./pkg/.gitignore
