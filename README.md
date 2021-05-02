@@ -35,6 +35,8 @@ const decompressed = inflate(compressed);
 
       deno run -A ./build.ts
 
-- Delete pkg/.gitignore
+- Delete pkg/.gitignore, pkg/package.json, pkg/README.md
     
       rm pkg/.gitignore
+      rm pkg/package.json
+      rm pkg/README.md
