@@ -1,3 +1,5 @@
+### This lib is SAFE to use ✅, an update is coming soon to remove wee_alloc 💩
+
 # Denoflate
 
 WebAssembly powered Deflate/Gzip/Zlib compression for Deno, written in Rust.
