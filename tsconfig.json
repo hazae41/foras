@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "baseUrl": "./node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "downlevelIteration": true,
+    "paths": {
+      "mods/*": [
+        "mods/*"
+      ],
+      "libs/*": [
+        "libs/*"
+      ],
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
+  },
+  "include": [
+    "./node/index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

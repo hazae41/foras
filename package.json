@@ -1,0 +1,39 @@
+{
+  "type": "module",
+  "name": "@hazae41/foras",
+  "version": "2.0",
+  "author": "hazae41",
+  "license": "Unlicense",
+  "description": "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
+  "homepage": "https://github.com/hazae41/foras",
+  "types": "./dist/types/node/index.d.ts",
+  "main": "./dist/cjs/node/index.cjs",
+  "sideEffects": false,
+  "scripts": {
+    "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release",
+    "build:dist": "rimraf dist && node build.js && rollup -c",
+    "build": "npm run build:wasm && npm run build:dist"
+  },
+  "peerDependencies": {
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^23.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^9.0.1",
+    "@types/node": "^18.8.4",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-dts": "^4.2.3",
+    "ts-node": "^10.9.1",
+    "ttypescript": "^1.5.13",
+    "typescript": "^4.8.4",
+    "typescript-transform-paths": "^3.3.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/node/index.d.ts",
+      "import": "./dist/cjs/node/index.cjs",
+      "require": "./dist/cjs/node/index.cjs"
+    }
+  }
+}

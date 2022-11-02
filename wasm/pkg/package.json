@@ -1,0 +1,22 @@
+{
+  "name": "foras",
+  "collaborators": [
+    "hazae41 <hazae41@proton.me>"
+  ],
+  "description": "WebAssembly port of Rust's flate, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
+  "version": "1.0.0",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hazae41/foras-wasm"
+  },
+  "files": [
+    "foras_bg.wasm",
+    "foras.js",
+    "foras.d.ts",
+    "LICENSE.md"
+  ],
+  "module": "foras.js",
+  "types": "foras.d.ts",
+  "sideEffects": false
+}

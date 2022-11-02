@@ -1,0 +1,13 @@
+on: [push]
+
+name: commit
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - run: "docker compose up --build"
+    - run: "git status --porcelain"
+    - run: "[[ -z $(git status --porcelain) ]]"

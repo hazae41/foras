@@ -1,0 +1,21 @@
+[package]
+name = "foras"
+version = "1.0.0"
+authors = ["hazae41 <hazae41@proton.me>"]
+edition = "2021"
+
+description = "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions."
+repository = "https://github.com/hazae41/foras-wasm"
+license = "Unlicense"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+debug = false
+opt-level = "z"
+
+[dependencies]
+wasm-bindgen = { version = "0.2.83", default-features = false, features = ["std"] }
+flate2 = { version = "1.0.24", default-features = false }

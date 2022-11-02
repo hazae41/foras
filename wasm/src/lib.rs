@@ -1,3 +1,7 @@
+extern crate alloc;
+
+use alloc::vec::Vec;
+
 use wasm_bindgen::prelude::*;
 
 use flate2::write::DeflateDecoder;
@@ -13,9 +17,6 @@ use flate2::Compression;
 
 use std::io::Write;
 
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
 #[wasm_bindgen]
 pub fn deflate(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsValue> {
     let _compression = compression
@@ -27,7 +28,7 @@ pub fn deflate(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsValu
     encoder
         .write_all(input)
         .and_then(|_| encoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }
 
 #[wasm_bindgen]
@@ -37,7 +38,7 @@ pub fn inflate(input: &[u8]) -> Result<Vec<u8>, JsValue> {
     decoder
         .write_all(input)
         .and_then(|_| decoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }
 
 #[wasm_bindgen]
@@ -51,7 +52,7 @@ pub fn gzip(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsValue> 
     encoder
         .write_all(input)
         .and_then(|_| encoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }
 
 #[wasm_bindgen]
@@ -61,7 +62,7 @@ pub fn gunzip(input: &[u8]) -> Result<Vec<u8>, JsValue> {
     encoder
         .write_all(input)
         .and_then(|_| encoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }
 
 #[wasm_bindgen]
@@ -75,7 +76,7 @@ pub fn zlib(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsValue> 
     encoder
         .write_all(input)
         .and_then(|_| encoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }
 
 #[wasm_bindgen]
@@ -85,5 +86,5 @@ pub fn unzlib(input: &[u8]) -> Result<Vec<u8>, JsValue> {
     encoder
         .write_all(input)
         .and_then(|_| encoder.finish())
-        .map_err(|e| JsValue::from(&format!("{:?}: {}", e.kind(), e)))
+        .map_err(|_| JsValue::from("Error"))
 }

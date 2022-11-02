@@ -1,38 +1,69 @@
-### This lib is SAFE to use ✅, an update is coming soon to remove wee_alloc 💩
+# Deflate, Gzip, and Zlib for WebAssembly
 
-# Denoflate
+WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.
 
-WebAssembly powered Deflate/Gzip/Zlib compression for Deno, written in Rust.
-
-## Usage
-
-    deno cache -r https://deno.land/x/denoflate/mod.ts
-
-```typescript
-import { deflate, inflate } from "https://deno.land/x/denoflate/mod.ts";
-// or { gzip, gunzip }
-// or { zlib, unzlib }
-
-const bytes = new Uint8Array([1, 2, 3]);
-const compressed = deflate(bytes, undefined);
-const decompressed = inflate(compressed);
+```bash
+npm i @hazae41/foras
 ```
 
-## Test
+### Usage
 
-    deno cache -r https://deno.land/x/denoflate/test.ts
-    deno run --allow-net https://deno.land/x/denoflate/test.ts
+```ts
+import { Foras, deflate, inflate } from "@hazae41/foras";
+// or { Foras, gzip, gunzip }
+// or { Foras, zlib, unzlib }
 
-## Building
+// Wait for WASM to load
+Foras.initSyncBundledOnce()
 
-- Install wasm-pack
-  
-      cargo install wasm-pack
+const bytes = new TextEncoder().encode("Hello world")
 
-- Generate WASM
+const compressed = deflate(bytes)
+const decompressed = inflate(compressed)
+```
 
-      wasm-pack build --target web --release
+### Unreproducible building
 
-- Pack .wasm to .wasm.js
+You need to install [Rust](https://www.rust-lang.org/tools/install)
 
-      deno run -A ./build.ts
+Then, install [wasm-pack](https://github.com/rustwasm/wasm-pack)
+
+```bash
+cargo install wasm-pack
+```
+
+Finally, do a clean install and build
+
+```bash
+npm ci && npm run build
+```
+
+### Reproducible building
+
+You can build the exact same bytecode using Docker, just be sure you're on a `linux/amd64` host
+
+```bash
+docker compose up --build
+```
+
+Then check that all the files are the same using `git status`
+
+```bash
+git status --porcelain
+```
+
+If the output is empty then the bytecode is the same as the one I commited
+
+### Automated checks
+
+Each time I commit to the repository, the GitHub's CI does the following:
+- Clone the repository
+- Reproduce the build using `docker compose up --build`
+- Throw an error if the `git status --porcelain` output is not empty
+
+Each time I release a new version tag on GitHub, the GitHub's CI does the following:
+- Clone the repository
+- Do not reproduce the build, as it's already checked by the task above
+- Throw an error if there is a `npm diff` between the cloned repository and the same version tag on NPM
+
+If a version is present on NPM but not on GitHub, do not use!
