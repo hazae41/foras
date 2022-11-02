@@ -3,7 +3,7 @@
   "collaborators": [
     "hazae41 <hazae41@proton.me>"
   ],
-  "description": "WebAssembly port of Rust's flate, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
+  "description": "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
   "version": "1.0.0",
   "license": "Unlicense",
   "repository": {
