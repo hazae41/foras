@@ -6,6 +6,8 @@ WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Z
 npm i @hazae41/foras
 ```
 
+[**Node Package 📦**](https://www.npmjs.com/package/@hazae41/foras) • [**Deno Module 🦖**](https://deno.land/x/foras) • [**Next.js CodeSandbox 🪣**](https://codesandbox.io/p/github/hazae41/foras-example-next)
+
 ### Usage
 
 ```ts
