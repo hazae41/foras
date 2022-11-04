@@ -1,4 +1,4 @@
-import { deflate, Foras, gunzip, GzDecoder, GzEncoder, gzip, inflate, unzlib, zlib } from "@hazae41/foras";
+import { deflate, DeflateDecoder, DeflateEncoder, Foras, gunzip, GzDecoder, GzEncoder, gzip, inflate, unzlib, zlib, ZlibDecoder, ZlibEncoder } from "@hazae41/foras";
 import { readFileSync } from "fs";
 
 Foras.initSyncBundledOnce()
@@ -36,7 +36,7 @@ console.log("Bytes", bytes)
   console.log("Decompressed", decompressed)
 }
 
-function compress(compresser, encoder) {
+function compress(decompresser, encoder) {
   const input = readFileSync("./lorem.txt")
   const output = Buffer.allocUnsafe(input.length)
 
@@ -52,17 +52,15 @@ function compress(compresser, encoder) {
     const compressed = encoder.read()
     output.set(compressed, woffset)
     woffset += compressed.length
-    console.log(compressed.length)
   }
 
   const finish = encoder.finish()
   output.set(finish, woffset)
   woffset += finish.length
-  console.log(finish)
 
-  const compressed = compresser(output)
+  const decompressed = decompresser(output.subarray(0, woffset))
 
-  console.log(output.equals(compressed))
+  console.log("equals", input.equals(decompressed))
 }
 
 function decompress(compresser, decoder) {
@@ -77,7 +75,7 @@ function decompress(compresser, decoder) {
   while (roffset < compressed.length) {
     const end = Math.min(roffset + 1000, compressed.length)
     decoder.write(compressed.subarray(roffset, end))
-    // decoder.flush()
+    decoder.flush()
     roffset = end
 
     const decompressed = decoder.read()
@@ -89,17 +87,35 @@ function decompress(compresser, decoder) {
   output.set(finish, woffset)
   woffset += finish.length
 
-  console.log(output.equals(input))
+  console.log("equals", output.equals(input))
+}
+
+{
+  console.log("--- Deflate Encoder Stream ---")
+  compress(inflate, new DeflateEncoder())
+}
+
+{
+  console.log("--- Deflate Decoder Stream ---")
+  decompress(deflate, new DeflateDecoder())
 }
 
 {
   console.log("--- Gzip Encoder Stream ---")
-
-  compress(gzip, new GzEncoder())
+  compress(gunzip, new GzEncoder())
 }
 
 {
   console.log("--- Gzip Decoder Stream ---")
-
   decompress(gzip, new GzDecoder())
+}
+
+{
+  console.log("--- Zlib Encoder Stream ---")
+  compress(unzlib, new ZlibEncoder())
+}
+
+{
+  console.log("--- Zlib Decoder Stream ---")
+  decompress(zlib, new ZlibDecoder())
 }
