@@ -1,0 +1,5 @@
+* linguist-vendored=true
+*.ts linguist-vendored=false
+*.rs linguist-vendored=false
+dist/* linguist-vendored=true
+pkg/* linguist-vendored=true
