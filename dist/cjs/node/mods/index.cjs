@@ -18,6 +18,12 @@ function initBundledOnce() {
     });
 }
 
+exports.DeflateDecoder = foras.DeflateDecoder;
+exports.DeflateEncoder = foras.DeflateEncoder;
+exports.GzDecoder = foras.GzDecoder;
+exports.GzEncoder = foras.GzEncoder;
+exports.ZlibDecoder = foras.ZlibDecoder;
+exports.ZlibEncoder = foras.ZlibEncoder;
 exports.deflate = foras.deflate;
 exports.gunzip = foras.gunzip;
 exports.gzip = foras.gzip;
