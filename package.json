@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@hazae41/foras",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "hazae41",
   "license": "Unlicense",
   "description": "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
