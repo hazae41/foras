@@ -1,3 +1,3 @@
-mod deflate;
-mod gzip;
-mod zlib;
+pub mod deflate;
+pub mod gzip;
+pub mod zlib;
