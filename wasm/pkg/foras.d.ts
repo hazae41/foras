@@ -5,6 +5,12 @@
 * @param {number | undefined} compression
 * @returns {Uint8Array}
 */
+export function deflate(input: Uint8Array, compression?: number): Uint8Array;
+/**
+* @param {Uint8Array} input
+* @param {number | undefined} compression
+* @returns {Uint8Array}
+*/
 export function zlib(input: Uint8Array, compression?: number): Uint8Array;
 /**
 * @param {Uint8Array} input
@@ -16,12 +22,64 @@ export function gzip(input: Uint8Array, compression?: number): Uint8Array;
 * @param {Uint8Array} input
 * @returns {Uint8Array}
 */
+export function inflate(input: Uint8Array): Uint8Array;
+/**
+* @param {Uint8Array} input
+* @returns {Uint8Array}
+*/
 export function unzlib(input: Uint8Array): Uint8Array;
 /**
 * @param {Uint8Array} input
 * @returns {Uint8Array}
 */
 export function gunzip(input: Uint8Array): Uint8Array;
+/**
+*/
+export class DeflateDecoder {
+  free(): void;
+/**
+*/
+  constructor();
+/**
+* @param {Uint8Array} input
+*/
+  write(input: Uint8Array): void;
+/**
+*/
+  flush(): void;
+/**
+* @returns {Uint8Array}
+*/
+  read(): Uint8Array;
+/**
+* @returns {Uint8Array}
+*/
+  finish(): Uint8Array;
+}
+/**
+*/
+export class DeflateEncoder {
+  free(): void;
+/**
+* @param {number | undefined} compression
+*/
+  constructor(compression?: number);
+/**
+* @param {Uint8Array} input
+*/
+  write(input: Uint8Array): void;
+/**
+*/
+  flush(): void;
+/**
+* @returns {Uint8Array}
+*/
+  read(): Uint8Array;
+/**
+* @returns {Uint8Array}
+*/
+  finish(): Uint8Array;
+}
 /**
 */
 export class GzDecoder {
@@ -121,6 +179,13 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly deflate: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly __wbg_deflateencoder_free: (a: number) => void;
+  readonly deflateencoder_new: (a: number, b: number) => number;
+  readonly deflateencoder_write: (a: number, b: number, c: number, d: number) => void;
+  readonly deflateencoder_flush: (a: number, b: number) => void;
+  readonly deflateencoder_read: (a: number, b: number) => void;
+  readonly deflateencoder_finish: (a: number, b: number) => void;
   readonly zlib: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly __wbg_zlibencoder_free: (a: number) => void;
   readonly zlibencoder_new: (a: number, b: number) => number;
@@ -135,6 +200,13 @@ export interface InitOutput {
   readonly gzencoder_flush: (a: number, b: number) => void;
   readonly gzencoder_read: (a: number, b: number) => void;
   readonly gzencoder_finish: (a: number, b: number) => void;
+  readonly inflate: (a: number, b: number, c: number) => void;
+  readonly __wbg_deflatedecoder_free: (a: number) => void;
+  readonly deflatedecoder_new: () => number;
+  readonly deflatedecoder_write: (a: number, b: number, c: number, d: number) => void;
+  readonly deflatedecoder_flush: (a: number, b: number) => void;
+  readonly deflatedecoder_read: (a: number, b: number) => void;
+  readonly deflatedecoder_finish: (a: number, b: number) => void;
   readonly unzlib: (a: number, b: number, c: number) => void;
   readonly __wbg_zlibdecoder_free: (a: number) => void;
   readonly zlibdecoder_new: () => number;

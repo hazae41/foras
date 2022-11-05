@@ -1,6 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export function deflate(a: number, b: number, c: number, d: number, e: number): void;
+export function __wbg_deflateencoder_free(a: number): void;
+export function deflateencoder_new(a: number, b: number): number;
+export function deflateencoder_write(a: number, b: number, c: number, d: number): void;
+export function deflateencoder_flush(a: number, b: number): void;
+export function deflateencoder_read(a: number, b: number): void;
+export function deflateencoder_finish(a: number, b: number): void;
 export function zlib(a: number, b: number, c: number, d: number, e: number): void;
 export function __wbg_zlibencoder_free(a: number): void;
 export function zlibencoder_new(a: number, b: number): number;
@@ -15,6 +22,13 @@ export function gzencoder_write(a: number, b: number, c: number, d: number): voi
 export function gzencoder_flush(a: number, b: number): void;
 export function gzencoder_read(a: number, b: number): void;
 export function gzencoder_finish(a: number, b: number): void;
+export function inflate(a: number, b: number, c: number): void;
+export function __wbg_deflatedecoder_free(a: number): void;
+export function deflatedecoder_new(): number;
+export function deflatedecoder_write(a: number, b: number, c: number, d: number): void;
+export function deflatedecoder_flush(a: number, b: number): void;
+export function deflatedecoder_read(a: number, b: number): void;
+export function deflatedecoder_finish(a: number, b: number): void;
 export function unzlib(a: number, b: number, c: number): void;
 export function __wbg_zlibdecoder_free(a: number): void;
 export function zlibdecoder_new(): number;
