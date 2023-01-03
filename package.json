@@ -1,39 +1,68 @@
 {
   "type": "module",
   "name": "@hazae41/foras",
-  "version": "2.0.2",
-  "author": "hazae41",
-  "license": "Unlicense",
+  "version": "2.0.3",
   "description": "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
   "homepage": "https://github.com/hazae41/foras",
-  "types": "./dist/types/node/index.d.ts",
-  "main": "./dist/cjs/node/index.cjs",
+  "repository": "github:hazae41/foras",
+  "author": "hazae41",
+  "license": "Unlicense",
+  "types": "./dist/types/src/node/index.d.ts",
+  "main": "./dist/cjs/src/node/index.cjs",
   "sideEffects": false,
+  "files": [
+    "./dist/esm",
+    "./dist/cjs",
+    "./dist/types"
+  ],
   "scripts": {
     "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release",
     "build:dist": "rimraf dist && node build.js && rollup -c",
-    "build": "npm run build:wasm && npm run build:dist"
+    "build": "npm run build:wasm && npm run build:dist",
+    "test:node": "node ./dist/test/src/node/index.test.cjs",
+    "test:deno": "deno run -A --unstable ./src/deno/mod.test.ts",
+    "test": "npm run test:node && npm run test:deno",
+    "example:deno": "deno run ./example/deno/mod.ts",
+    "example:node": "cd ./example/node && npm ci && node ./index.js",
+    "prepare": "npm run build:dist"
   },
-  "peerDependencies": {
+  "dependencies": {
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^23.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
-    "@rollup/plugin-typescript": "^9.0.1",
-    "@types/node": "^18.8.4",
+    "@hazae41/phobos": "^1.0.7",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^10.0.1",
+    "@types/node": "^18.11.18",
     "rimraf": "^3.0.2",
-    "rollup-plugin-dts": "^4.2.3",
+    "rollup": "^3.9.1",
+    "rollup-plugin-dts": "^5.1.0",
+    "rollup-plugin-node-externals": "^5.0.3",
     "ts-node": "^10.9.1",
-    "ttypescript": "^1.5.13",
-    "typescript": "^4.8.4",
-    "typescript-transform-paths": "^3.3.1"
+    "ttypescript": "^1.5.15",
+    "typescript": "^4.9.4",
+    "typescript-transform-paths": "^3.4.4"
   },
   "exports": {
     ".": {
-      "types": "./dist/types/node/index.d.ts",
-      "import": "./dist/cjs/node/index.cjs",
-      "require": "./dist/cjs/node/index.cjs"
+      "types": "./dist/types/src/node/index.d.ts",
+      "import": "./dist/cjs/src/node/index.cjs",
+      "require": "./dist/cjs/src/node/index.cjs"
     }
-  }
+  },
+  "keywords": [
+    "reproducible",
+    "webassembly",
+    "cryptography",
+    "compression",
+    "deflate",
+    "gzip",
+    "zlib",
+    "browser",
+    "typescript",
+    "rust",
+    "unit-tested",
+    "deno"
+  ]
 }

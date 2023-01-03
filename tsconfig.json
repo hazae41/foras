@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "baseUrl": "./node",
+    "baseUrl": "./src/node",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
@@ -25,7 +25,8 @@
     ]
   },
   "include": [
-    "./node/index.ts"
+    "./src/node/index.ts",
+    "./src/node/index.test.ts"
   ],
   "exclude": [
     "node_modules"

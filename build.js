@@ -12,4 +12,4 @@ await writeFile(
   `export const wasm: string;`
 );
 
-await rm(`./wasm/pkg/.gitignore`);
+await rm(`./wasm/pkg/.gitignore`, { force: true });
