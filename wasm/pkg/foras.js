@@ -919,5 +919,5 @@ async function init(input) {
     return finalizeInit(instance, module);
 }
 
-export { init, initSync };
+export { init, initSync }
 export default init;
