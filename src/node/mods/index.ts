@@ -1,6 +1,6 @@
 export * from "../../../wasm/pkg/foras.js";
 
-import init, { InitOutput, initSync } from "../../../wasm/pkg/foras.js";
+import { init, InitOutput, initSync } from "../../../wasm/pkg/foras.js";
 import { wasm } from "../../../wasm/pkg/foras.wasm.js";
 
 let output: InitOutput | undefined = undefined
@@ -10,5 +10,5 @@ export function initSyncBundledOnce() {
 }
 
 export async function initBundledOnce() {
-  return output ??= await (init as any)(Buffer.from(wasm, "base64"))
+  return output ??= await init(Buffer.from(wasm, "base64"))
 }
