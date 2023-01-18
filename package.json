@@ -31,7 +31,7 @@
     "@hazae41/phobos": "^1.0.10",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/node": "^18.11.18",
-    "rimraf": "^4.1.0",
+    "rimraf": "^4.1.1",
     "rollup": "^3.10.0",
     "rollup-plugin-dts": "^5.1.1",
     "rollup-plugin-node-externals": "^5.1.0",

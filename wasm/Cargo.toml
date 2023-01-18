@@ -18,4 +18,4 @@ opt-level = "z"
 
 [dependencies]
 wasm-bindgen = { version = "0.2.83", default-features = false, features = ["std"] }
-flate2 = { version = "1.0.24", default-features = false }
+flate2 = { version = "1.0.25", default-features = false }
