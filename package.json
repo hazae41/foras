@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@hazae41/foras",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.",
   "homepage": "https://github.com/hazae41/foras",
   "repository": "github:hazae41/foras",
@@ -17,8 +17,8 @@
     "./dist/types"
   ],
   "scripts": {
-    "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release",
-    "build:dist": "rimraf dist && node build.js && rollup -c",
+    "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release && node patch.js",
+    "build:dist": "rimraf dist && rollup -c",
     "build": "npm run build:wasm && npm run build:dist",
     "test:node": "node ./dist/test/src/node/index.test.mjs",
     "test:deno": "deno run -A --unstable ./src/deno/mod.test.ts",
