@@ -1,4 +1,9 @@
-# Deflate, Gzip, and Zlib for WebAssembly
+<div>
+  <img align="right" width="128" src="https://user-images.githubusercontent.com/4405263/216623921-fc3ea95c-6875-47a4-ada8-4a5b8f1afafd.png"/>
+  <p></p>
+</div>
+
+# Foras
 
 WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.
 
