@@ -5,7 +5,7 @@
 
 # Foras
 
-WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions.
+WebAssembly port of Deflate, Gzip, and Zlib compression algorithms
 
 ```bash
 npm i @hazae41/foras
@@ -13,7 +13,19 @@ npm i @hazae41/foras
 
 [**Node Package 📦**](https://www.npmjs.com/package/@hazae41/foras) • [**Deno Module 🦖**](https://deno.land/x/foras) • [**Next.js CodeSandbox 🪣**](https://codesandbox.io/p/github/hazae41/foras-example-next)
 
-### Usage
+## Algorithms
+- Deflate from flate2
+- Gzip from flate2
+- Zlib from flate2
+
+## Features
+- Reproducible building
+- Pre-bundled and streamed
+- Zero-copy memory slices
+
+## Usage
+
+### Direct
 
 ```ts
 import { Foras, deflate, inflate } from "@hazae41/foras";
@@ -21,12 +33,31 @@ import { Foras, deflate, inflate } from "@hazae41/foras";
 // or { Foras, zlib, unzlib }
 
 // Wait for WASM to load
-Foras.initSyncBundledOnce()
+await Foras.initBundledOnce()
 
 const bytes = new TextEncoder().encode("Hello world")
 
-const compressed = deflate(bytes)
-const decompressed = inflate(compressed)
+const compressed = deflate(bytes).bytes.slice()
+const decompressed = inflate(compressed).bytes.slice()
+```
+
+### Streaming
+
+```ts
+import { Foras, DeflateEncoder, DeflateDecoder } from "@hazae41/foras";
+// or { Foras, GzEncoder, GzDecoder }
+// or { Foras, ZlibEncoder, ZlibDecoder }
+
+// Wait for WASM to load
+await Foras.initBundledOnce()
+
+const bytes = new TextEncoder().encode("Hello world")
+
+const compresser = new DeflateEncoder()
+compresser.write(bytes)
+compresser.flush()
+const compressed1 = compresser.read().bytes.slice()
+const compressed2 = compresser.finish().bytes.slice()
 ```
 
 ### Unreproducible building

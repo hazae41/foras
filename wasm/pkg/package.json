@@ -13,10 +13,11 @@
   "files": [
     "foras_bg.wasm",
     "foras.js",
-    "foras.d.ts",
-    "LICENSE.md"
+    "foras.d.ts"
   ],
   "module": "foras.js",
   "types": "foras.d.ts",
-  "sideEffects": false
+  "sideEffects": [
+    "./snippets/*"
+  ]
 }

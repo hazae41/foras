@@ -17,5 +17,5 @@ debug = false
 opt-level = "z"
 
 [dependencies]
-wasm-bindgen = { version = "0.2.83", default-features = false, features = ["std"] }
+wasm-bindgen = { version = "0.2.87", default-features = false, features = ["std"] }
 flate2 = { version = "1.0.25", default-features = false }

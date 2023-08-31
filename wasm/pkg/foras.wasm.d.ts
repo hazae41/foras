@@ -1,1 +1,1 @@
-export const wasm: string;
+export const data: string;
