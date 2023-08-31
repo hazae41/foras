@@ -4,7 +4,7 @@ version = "1.0.0"
 authors = ["hazae41 <hazae41@proton.me>"]
 edition = "2021"
 
-description = "WebAssembly port of Rust's flate2, a Rust implementation of Deflate, Gzip, and Zlib compressions."
+description = "WebAssembly port of Deflate, Gzip, and Zlib compression algorithms"
 repository = "https://github.com/hazae41/foras-wasm"
 license = "Unlicense"
 

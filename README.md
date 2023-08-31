@@ -60,6 +60,8 @@ const compressed1 = compresser.read().bytes.slice()
 const compressed2 = compresser.finish().bytes.slice()
 ```
 
+## Building
+
 ### Unreproducible building
 
 You need to install [Rust](https://www.rust-lang.org/tools/install)
