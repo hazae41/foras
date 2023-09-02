@@ -48,7 +48,7 @@ export class Slice {
   /**
    * @returns {Uint8Array}
    **/
-  read() {
+  copy() {
     const bytes = this.bytes.slice()
     this.free()
     return bytes
@@ -92,7 +92,7 @@ export class Slice {
   /**
    * Copy the bytes and free them
    **/
-  read(): Uint8Array
+  copy(): Uint8Array
 
   /**
    * Free the bytes

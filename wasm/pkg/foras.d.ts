@@ -268,7 +268,7 @@ export class Slice {
   /**
    * Copy the bytes and free them
    **/
-  read(): Uint8Array
+  copy(): Uint8Array
 
   /**
    * Free the bytes

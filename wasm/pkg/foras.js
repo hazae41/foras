@@ -963,7 +963,7 @@ export class Slice {
   /**
    * @returns {Uint8Array}
    **/
-  read() {
+  copy() {
     const bytes = this.bytes.slice()
     this.free()
     return bytes

@@ -31,12 +31,12 @@ function compressStream(compresser: StreamCoder, decompressed: Uint8Array) {
     compresser.flush()
     roffset = end
 
-    const block = compresser.read().bytes.slice()
+    const block = compresser.read().copy()
     compressed.set(block, woffset)
     woffset += block.length
   }
 
-  const finish = compresser.finish().bytes.slice()
+  const finish = compresser.finish().copy()
   compressed.set(finish, woffset)
   woffset += finish.length
 
@@ -55,12 +55,12 @@ function decompressStream(decompresser: StreamCoder, compressed: Uint8Array, ori
     decompresser.flush()
     roffset = end
 
-    const block = decompresser.read().bytes.slice()
+    const block = decompresser.read().copy()
     decompressed.set(block, woffset)
     woffset += block.length
   }
 
-  const finish = decompresser.finish().bytes.slice()
+  const finish = decompresser.finish().copy()
   decompressed.set(finish, woffset)
   woffset += finish.length
 
@@ -71,7 +71,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
   const original = Deno.readFileSync("./test/lorem.txt")
 
   const compressed = compressStream(compresser, original)
-  const decompressed = decompresser(compressed).bytes.slice()
+  const decompressed = decompresser(compressed).copy()
 
   assert(equals(decompressed, original), `decompress(compress_stream(input)) should be equals to input`)
 }
@@ -79,7 +79,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
 function assertDecompressStream(compresser: Coder, decompresser: StreamCoder) {
   const original = Deno.readFileSync("./test/lorem.txt")
 
-  const compressed = compresser(original).bytes.slice()
+  const compressed = compresser(original).copy()
   const decompressed = decompressStream(decompresser, compressed, original)
 
   assert(equals(decompressed, original), `decompress_stream(compress(input)) should be equals to input`)
