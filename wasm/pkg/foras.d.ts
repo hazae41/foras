@@ -36,6 +36,11 @@ export function gunzip(input: Uint8Array): Slice;
 /**
 */
 export class DeflateDecoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 */
@@ -59,6 +64,11 @@ export class DeflateDecoder {
 /**
 */
 export class DeflateEncoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 * @param {number | undefined} compression
@@ -83,6 +93,11 @@ export class DeflateEncoder {
 /**
 */
 export class GzDecoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 */
@@ -106,6 +121,11 @@ export class GzDecoder {
 /**
 */
 export class GzEncoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 * @param {number | undefined} compression
@@ -130,6 +150,11 @@ export class GzEncoder {
 /**
 */
 export class ZlibDecoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 */
@@ -153,6 +178,11 @@ export class ZlibDecoder {
 /**
 */
 export class ZlibEncoder {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 * @param {number | undefined} compression

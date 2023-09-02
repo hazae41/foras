@@ -245,7 +245,16 @@ export class DeflateDecoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflatedecoder_free(ptr);
     }
@@ -346,7 +355,16 @@ export class DeflateEncoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflateencoder_free(ptr);
     }
@@ -448,7 +466,16 @@ export class GzDecoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzdecoder_free(ptr);
     }
@@ -549,7 +576,16 @@ export class GzEncoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzencoder_free(ptr);
     }
@@ -651,7 +687,16 @@ export class ZlibDecoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibdecoder_free(ptr);
     }
@@ -752,7 +797,16 @@ export class ZlibEncoder {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibencoder_free(ptr);
     }
