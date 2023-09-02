@@ -14,7 +14,7 @@ crate-type = ["cdylib"]
 [profile.release]
 lto = true
 debug = false
-opt-level = "z"
+opt-level = 3
 
 [dependencies]
 wasm-bindgen = { version = "0.2.87", default-features = false, features = ["std"] }
