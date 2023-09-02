@@ -18,4 +18,4 @@ opt-level = 3
 
 [dependencies]
 wasm-bindgen = { version = "0.2.87", default-features = false, features = ["std"] }
-flate2 = { version = "1.0.25", default-features = false }
+flate2 = { version = "1.0.27", default-features = false, features = ["rust_backend"] }

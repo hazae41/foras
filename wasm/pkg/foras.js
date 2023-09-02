@@ -524,7 +524,7 @@ export class GzDecoder {
     read() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.gzdecoder_read(retptr, this.__wbg_ptr);
+            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var v1 = new Slice(r0, r1);
