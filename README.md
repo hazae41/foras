@@ -56,8 +56,11 @@ const bytes = new TextEncoder().encode("Hello world")
 const compresser = new DeflateEncoder()
 compresser.write(bytes)
 compresser.flush()
+
 const compressed1 = compresser.read().copy()
 const compressed2 = compresser.finish().copy()
+
+compresser.free()
 ```
 
 ## Building
