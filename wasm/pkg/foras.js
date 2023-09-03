@@ -250,10 +250,6 @@ export class DeflateDecoder {
     this.free()
   }
 
-  dispose() {
-    this.free()
-  }
-
   free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflatedecoder_free(ptr);
@@ -357,10 +353,6 @@ export class DeflateEncoder {
 
   
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  dispose() {
     this.free()
   }
 
@@ -471,10 +463,6 @@ export class GzDecoder {
     this.free()
   }
 
-  dispose() {
-    this.free()
-  }
-
   free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzdecoder_free(ptr);
@@ -578,10 +566,6 @@ export class GzEncoder {
 
   
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  dispose() {
     this.free()
   }
 
@@ -692,10 +676,6 @@ export class ZlibDecoder {
     this.free()
   }
 
-  dispose() {
-    this.free()
-  }
-
   free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibdecoder_free(ptr);
@@ -799,10 +779,6 @@ export class ZlibEncoder {
 
   
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  dispose() {
     this.free()
   }
 
@@ -1027,13 +1003,6 @@ export class Slice {
    * @returns {void}
    **/
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  /**
-   * @returns {void}
-   **/
-  dispose() {
     this.free()
   }
 

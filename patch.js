@@ -9,16 +9,10 @@ const disposableJs = `
   [Symbol.dispose]() {
     this.free()
   }
-
-  dispose() {
-    this.free()
-  }
 `
 
 const disposableTs = `
   [Symbol.dispose](): void
-
-  dispose(): void
 `
 
 const glueJs = readFileSync(`./wasm/pkg/foras.js`, "utf8")
@@ -79,13 +73,6 @@ export class Slice {
     this.free()
   }
 
-  /**
-   * @returns {void}
-   **/
-  dispose() {
-    this.free()
-  }
-
 }`
 
 const patchTs = `
@@ -116,11 +103,6 @@ export class Slice {
    * Free the bytes
    **/
   [Symbol.dispose](): void
-
-  /**
-   * Free the bytes
-   **/
-  dispose(): void
 
 }`
 

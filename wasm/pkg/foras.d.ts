@@ -39,8 +39,6 @@ export class DeflateDecoder {
 
   [Symbol.dispose](): void
 
-  dispose(): void
-
   free(): void;
 /**
 */
@@ -66,8 +64,6 @@ export class DeflateDecoder {
 export class DeflateEncoder {
 
   [Symbol.dispose](): void
-
-  dispose(): void
 
   free(): void;
 /**
@@ -96,8 +92,6 @@ export class GzDecoder {
 
   [Symbol.dispose](): void
 
-  dispose(): void
-
   free(): void;
 /**
 */
@@ -123,8 +117,6 @@ export class GzDecoder {
 export class GzEncoder {
 
   [Symbol.dispose](): void
-
-  dispose(): void
 
   free(): void;
 /**
@@ -153,8 +145,6 @@ export class ZlibDecoder {
 
   [Symbol.dispose](): void
 
-  dispose(): void
-
   free(): void;
 /**
 */
@@ -180,8 +170,6 @@ export class ZlibDecoder {
 export class ZlibEncoder {
 
   [Symbol.dispose](): void
-
-  dispose(): void
 
   free(): void;
 /**
@@ -304,10 +292,5 @@ export class Slice {
    * Free the bytes
    **/
   [Symbol.dispose](): void
-
-  /**
-   * Free the bytes
-   **/
-  dispose(): void
 
 }
