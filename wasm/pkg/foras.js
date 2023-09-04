@@ -1,3 +1,6 @@
+
+import { Ok } from "@hazae41/result"
+
 let wasm;
 
 const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
@@ -963,6 +966,7 @@ export async function __wbg_init(input) {
 export { initSync }
 export default __wbg_init;
 
+
 export class Slice {
 
   /**
@@ -974,6 +978,13 @@ export class Slice {
     this.len = len
     this.start = (ptr >>> 0) / 1
     this.end = this.start + len
+  }
+
+  /**
+   * @returns {void}
+   **/
+  [Symbol.dispose]() {
+    this.free()
   }
 
   /**
@@ -1000,10 +1011,18 @@ export class Slice {
   }
 
   /**
-   * @returns {void}
-   **/
-  [Symbol.dispose]() {
-    this.free()
+   * @returns {Result<number,never>}
+   */
+  trySize() {
+    return new Ok(this.len)
+  }
+
+  /**
+   * @param {Cursor} cursor 
+   * @returns {Result<void, CursorWriteError>}
+   */
+  tryWrite(cursor) {
+    return cursor.tryWrite(this.bytes)
   }
 
 }

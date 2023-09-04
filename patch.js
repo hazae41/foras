@@ -29,7 +29,11 @@ const glueTs = readFileSync(`./wasm/pkg/foras.d.ts`, "utf8")
   .replaceAll(": Uint8Array;", ": Slice;")
   .replaceAll("  free(): void;", disposableTs + "\n" + "  free(): void;")
 
-const patchJs = `
+const preJs = `
+import { Ok } from "@hazae41/result"
+`
+
+const postJs = `
 export class Slice {
 
   /**
@@ -41,6 +45,13 @@ export class Slice {
     this.len = len
     this.start = (ptr >>> 0) / 1
     this.end = this.start + len
+  }
+
+  /**
+   * @returns {void}
+   **/
+  [Symbol.dispose]() {
+    this.free()
   }
 
   /**
@@ -67,15 +78,28 @@ export class Slice {
   }
 
   /**
-   * @returns {void}
-   **/
-  [Symbol.dispose]() {
-    this.free()
+   * @returns {Result<number,never>}
+   */
+  trySize() {
+    return new Ok(this.len)
+  }
+
+  /**
+   * @param {Cursor} cursor 
+   * @returns {Result<void, CursorWriteError>}
+   */
+  tryWrite(cursor) {
+    return cursor.tryWrite(this.bytes)
   }
 
 }`
 
-const patchTs = `
+const preTs = `
+import type { Result } from "@hazae41/result"
+import type { Cursor, CursorWriteError } from "@hazae41/cursor"
+`
+
+const postTs = `
 export class Slice {
 
   readonly ptr: number
@@ -83,6 +107,11 @@ export class Slice {
   readonly len: number
 
   constructor(ptr: number, len: number);
+
+  /**
+   * Free the bytes
+   **/
+  [Symbol.dispose](): void
 
   /**
    * Get the bytes in memory
@@ -99,14 +128,13 @@ export class Slice {
    **/
   copy(): Uint8Array
 
-  /**
-   * Free the bytes
-   **/
-  [Symbol.dispose](): void
+  trySize(): Result<number, never>
+
+  tryWrite(cursor: Cursor): Result<void, CursorWriteError>
 
 }`
 
-writeFileSync(`./wasm/pkg/foras.js`, glueJs + patchJs)
-writeFileSync(`./wasm/pkg/foras.d.ts`, glueTs + patchTs)
+writeFileSync(`./wasm/pkg/foras.js`, preJs + "\n" + glueJs + "\n" + postJs)
+writeFileSync(`./wasm/pkg/foras.d.ts`, preTs + "\n" + glueTs + "\n" + postTs)
 
 rmSync(`./wasm/pkg/.gitignore`, { force: true });
