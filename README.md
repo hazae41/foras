@@ -37,8 +37,8 @@ await Foras.initBundledOnce()
 
 const bytes = new TextEncoder().encode("Hello world")
 
-const compressed = deflate(bytes).copy()
-const decompressed = inflate(compressed).copy()
+const compressed = deflate(bytes).copyAndDispose()
+const decompressed = inflate(compressed).copyAndDispose()
 ```
 
 ### Streaming
@@ -57,8 +57,8 @@ const compresser = new DeflateEncoder()
 compresser.write(bytes)
 compresser.flush()
 
-const compressed1 = compresser.read().copy()
-const compressed2 = compresser.finish().copy()
+const compressed1 = compresser.read().copyAndDispose()
+const compressed2 = compresser.finish().copyAndDispose()
 
 compresser.free()
 ```

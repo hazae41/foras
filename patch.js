@@ -71,7 +71,7 @@ export class Slice {
   /**
    * @returns {Uint8Array}
    **/
-  copy() {
+  copyAndDispose() {
     const bytes = this.bytes.slice()
     this.free()
     return bytes
@@ -126,7 +126,7 @@ export class Slice {
   /**
    * Copy the bytes and free them
    **/
-  copy(): Uint8Array
+  copyAndDispose(): Uint8Array
 
   trySize(): Result<number, never>
 
