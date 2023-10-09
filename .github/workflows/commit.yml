@@ -7,7 +7,11 @@ jobs:
     name: check
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
-    - run: "docker compose up --build"
-    - run: "git status --porcelain"
-    - run: "[[ -z $(git status --porcelain) ]]"
+      - uses: actions/checkout@v3
+      - run: 'docker compose up --build'
+      - run: 'git status --porcelain'
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pkg
+          path: ./wasm/pkg/
+      - run: '[[ -z $(git status --porcelain) ]]'
