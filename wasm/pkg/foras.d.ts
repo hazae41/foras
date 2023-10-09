@@ -1,6 +1,5 @@
 
-import type { Result } from "@hazae41/result"
-import type { Cursor, CursorWriteError } from "@hazae41/cursor"
+import type { Box, Copiable, Copied } from "@hazae41/box"
 
 /* tslint:disable */
 /* eslint-disable */
@@ -9,37 +8,39 @@ import type { Cursor, CursorWriteError } from "@hazae41/cursor"
 * @param {number | undefined} compression
 * @returns {Slice}
 */
-export function deflate(input: Uint8Array, compression?: number): Slice;
+export function deflate(input: Box<Copiable>, compression?: number): Slice;
 /**
 * @param {Uint8Array} input
 * @param {number | undefined} compression
 * @returns {Slice}
 */
-export function zlib(input: Uint8Array, compression?: number): Slice;
+export function zlib(input: Box<Copiable>, compression?: number): Slice;
 /**
 * @param {Uint8Array} input
 * @param {number | undefined} compression
 * @returns {Slice}
 */
-export function gzip(input: Uint8Array, compression?: number): Slice;
+export function gzip(input: Box<Copiable>, compression?: number): Slice;
 /**
 * @param {Uint8Array} input
 * @returns {Slice}
 */
-export function inflate(input: Uint8Array): Slice;
+export function inflate(input: Box<Copiable>): Slice;
 /**
 * @param {Uint8Array} input
 * @returns {Slice}
 */
-export function unzlib(input: Uint8Array): Slice;
+export function unzlib(input: Box<Copiable>): Slice;
 /**
 * @param {Uint8Array} input
 * @returns {Slice}
 */
-export function gunzip(input: Uint8Array): Slice;
+export function gunzip(input: Box<Copiable>): Slice;
 /**
 */
 export class DeflateDecoder {
+
+  get freed(): boolean
 
   [Symbol.dispose](): void
 
@@ -50,7 +51,7 @@ export class DeflateDecoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -67,6 +68,8 @@ export class DeflateDecoder {
 */
 export class DeflateEncoder {
 
+  get freed(): boolean
+
   [Symbol.dispose](): void
 
   free(): void;
@@ -77,7 +80,7 @@ export class DeflateEncoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -94,6 +97,8 @@ export class DeflateEncoder {
 */
 export class GzDecoder {
 
+  get freed(): boolean
+
   [Symbol.dispose](): void
 
   free(): void;
@@ -103,7 +108,7 @@ export class GzDecoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -120,6 +125,8 @@ export class GzDecoder {
 */
 export class GzEncoder {
 
+  get freed(): boolean
+
   [Symbol.dispose](): void
 
   free(): void;
@@ -130,7 +137,7 @@ export class GzEncoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -147,6 +154,8 @@ export class GzEncoder {
 */
 export class ZlibDecoder {
 
+  get freed(): boolean
+
   [Symbol.dispose](): void
 
   free(): void;
@@ -156,7 +165,7 @@ export class ZlibDecoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -173,6 +182,8 @@ export class ZlibDecoder {
 */
 export class ZlibEncoder {
 
+  get freed(): boolean
+
   [Symbol.dispose](): void
 
   free(): void;
@@ -183,7 +194,7 @@ export class ZlibEncoder {
 /**
 * @param {Uint8Array} input
 */
-  write(input: Uint8Array): void;
+  write(input: Box<Copiable>): void;
 /**
 */
   flush(): void;
@@ -289,17 +300,18 @@ export class Slice {
   get bytes(): Uint8Array
 
   /**
-   * Free the bytes
+   * Is the memory freed?
+   **/
+  get freed(): boolean
+
+  /**
+   * Free the bytes (do nothing if already freed)
    **/
   free(): void
 
   /**
    * Copy the bytes and free them
    **/
-  copyAndDispose(): Uint8Array
-
-  trySize(): Result<number, never>
-
-  tryWrite(cursor: Cursor): Result<void, CursorWriteError>
+  copyAndDispose(): Copied
 
 }

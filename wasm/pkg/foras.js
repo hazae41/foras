@@ -1,5 +1,5 @@
 
-import { Ok } from "@hazae41/result"
+import { Copied } from "@hazae41/box"
 
 let wasm;
 
@@ -39,9 +39,16 @@ function addHeapObject(obj) {
 let WASM_VECTOR_LEN = 0;
 
 function passArray8ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 1, 1) >>> 0;
-    getUint8Memory0().set(arg, ptr / 1);
-    WASM_VECTOR_LEN = arg.length;
+    if (getUint8Memory0().buffer === arg.inner.bytes.buffer) {
+      const bytes = arg.unwrap().bytes
+      WASM_VECTOR_LEN = bytes.byteLength;
+      return bytes.byteOffset
+    }
+
+    const bytes = arg.get().bytes
+    const ptr = malloc(bytes.length * 1, 1) >>> 0;
+    getUint8Memory0().set(bytes, ptr / 1);
+    WASM_VECTOR_LEN = bytes.length;
     return ptr;
 }
 
@@ -77,7 +84,7 @@ function getArrayU8FromWasm0(ptr, len) {
     return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
 }
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @param {number | undefined} compression
 * @returns {Slice}
 */
@@ -103,7 +110,7 @@ export function deflate(input, compression) {
 }
 
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @param {number | undefined} compression
 * @returns {Slice}
 */
@@ -129,7 +136,7 @@ export function zlib(input, compression) {
 }
 
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @param {number | undefined} compression
 * @returns {Slice}
 */
@@ -155,7 +162,7 @@ export function gzip(input, compression) {
 }
 
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @returns {Slice}
 */
 export function inflate(input) {
@@ -180,7 +187,7 @@ export function inflate(input) {
 }
 
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @returns {Slice}
 */
 export function unzlib(input) {
@@ -205,7 +212,7 @@ export function unzlib(input) {
 }
 
 /**
-* @param {Uint8Array} input
+* @param {Box<Copiable>} input
 * @returns {Slice}
 */
 export function gunzip(input) {
@@ -237,6 +244,7 @@ export class DeflateDecoder {
         ptr = ptr >>> 0;
         const obj = Object.create(DeflateDecoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -249,11 +257,19 @@ export class DeflateDecoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflatedecoder_free(ptr);
     }
@@ -264,7 +280,7 @@ export class DeflateDecoder {
         return DeflateDecoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -343,6 +359,7 @@ export class DeflateEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(DeflateEncoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -355,11 +372,19 @@ export class DeflateEncoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflateencoder_free(ptr);
     }
@@ -371,7 +396,7 @@ export class DeflateEncoder {
         return DeflateEncoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -450,6 +475,7 @@ export class GzDecoder {
         ptr = ptr >>> 0;
         const obj = Object.create(GzDecoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -462,11 +488,19 @@ export class GzDecoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzdecoder_free(ptr);
     }
@@ -477,7 +511,7 @@ export class GzDecoder {
         return GzDecoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -556,6 +590,7 @@ export class GzEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(GzEncoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -568,11 +603,19 @@ export class GzEncoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzencoder_free(ptr);
     }
@@ -584,7 +627,7 @@ export class GzEncoder {
         return GzEncoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -663,6 +706,7 @@ export class ZlibDecoder {
         ptr = ptr >>> 0;
         const obj = Object.create(ZlibDecoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -675,11 +719,19 @@ export class ZlibDecoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibdecoder_free(ptr);
     }
@@ -690,7 +742,7 @@ export class ZlibDecoder {
         return ZlibDecoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -769,6 +821,7 @@ export class ZlibEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(ZlibEncoder.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -781,11 +834,19 @@ export class ZlibEncoder {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibencoder_free(ptr);
     }
@@ -797,7 +858,7 @@ export class ZlibEncoder {
         return ZlibEncoder.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     */
     write(input) {
         try {
@@ -969,6 +1030,8 @@ export default __wbg_init;
 
 export class Slice {
 
+  #freed = false
+
   /**
    * @param {number} ptr 
    * @param {number} len 
@@ -994,35 +1057,27 @@ export class Slice {
     return getUint8Memory0().subarray(this.start, this.end)
   }
 
+  get freed() {
+    return this.#freed
+  }
+
   /**
    * @returns {void}
    **/
   free() {
+    if (this.#freed)
+      return
+    this.#freed = true
     wasm.__wbindgen_free(this.ptr, this.len * 1);
   }
 
   /**
-   * @returns {Uint8Array}
+   * @returns {Copied}
    **/
   copyAndDispose() {
     const bytes = this.bytes.slice()
     this.free()
-    return bytes
-  }
-
-  /**
-   * @returns {Result<number,never>}
-   */
-  trySize() {
-    return new Ok(this.len)
-  }
-
-  /**
-   * @param {Cursor} cursor 
-   * @returns {Result<void, CursorWriteError>}
-   */
-  tryWrite(cursor) {
-    return cursor.tryWrite(this.bytes)
+    return new Copied(bytes)
   }
 
 }
