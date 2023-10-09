@@ -32,12 +32,25 @@ export const config = [
       sourcemap: false,
       entryFileNames: "[name].d.ts",
     }],
-    plugins: [externals(), ts(), dts()]
+    plugins: [externals(), ts(), dts()],
+    external: [/^lib/]
   },
   {
     input: "./src/node/index.test.ts",
     output: [{
       dir: "./dist/test",
+      format: "esm",
+      exports: "named",
+      preserveModules: true,
+      sourcemap: true,
+      entryFileNames: "[name].mjs"
+    }],
+    plugins: [externals({ devDeps: true }), ts()],
+  },
+  {
+    input: "./src/node/index.bench.ts",
+    output: [{
+      dir: "./dist/bench",
       format: "esm",
       exports: "named",
       preserveModules: true,
