@@ -1,6 +1,3 @@
-
-import { Copied } from "@hazae41/box"
-
 let wasm;
 
 const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
@@ -36,24 +33,11 @@ function addHeapObject(obj) {
     return idx;
 }
 
-let WASM_VECTOR_LEN = 0;
-
-function passArray8ToWasm0(arg, malloc) {
-    if (getUint8Memory0().buffer === arg.inner.bytes.buffer) {
-      const bytes = arg.unwrap().bytes
-      WASM_VECTOR_LEN = bytes.byteLength;
-      return bytes.byteOffset
+function _assertClass(instance, klass) {
+    if (!(instance instanceof klass)) {
+        throw new Error(`expected instance of ${klass.name}`);
     }
-
-    const bytes = arg.get().bytes
-    const ptr = malloc(bytes.length * 1, 1) >>> 0;
-    getUint8Memory0().set(bytes, ptr / 1);
-    WASM_VECTOR_LEN = bytes.length;
-    return ptr;
-}
-
-function isLikeNone(x) {
-    return x === undefined || x === null;
+    return instance.ptr;
 }
 
 let cachedInt32Memory0 = null;
@@ -78,159 +62,142 @@ function takeObject(idx) {
     dropObject(idx);
     return ret;
 }
-
-function getArrayU8FromWasm0(ptr, len) {
-    ptr = ptr >>> 0;
-    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
-}
 /**
-* @param {Box<Copiable>} input
-* @param {number | undefined} compression
-* @returns {Slice}
-*/
-export function deflate(input, compression) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.deflate(retptr, ptr0, len0, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
-        }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
-* @param {Box<Copiable>} input
-* @param {number | undefined} compression
-* @returns {Slice}
-*/
-export function zlib(input, compression) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.zlib(retptr, ptr0, len0, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
-        }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
-* @param {Box<Copiable>} input
-* @param {number | undefined} compression
-* @returns {Slice}
-*/
-export function gzip(input, compression) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.gzip(retptr, ptr0, len0, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
-        }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
-* @param {Box<Copiable>} input
-* @returns {Slice}
-*/
-export function inflate(input) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.inflate(retptr, ptr0, len0);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
-        }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
-* @param {Box<Copiable>} input
-* @returns {Slice}
-*/
-export function unzlib(input) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.unzlib(retptr, ptr0, len0);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
-        }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
-* @param {Box<Copiable>} input
-* @returns {Slice}
+* @param {Memory} input
+* @returns {Memory}
 */
 export function gunzip(input) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.gunzip(retptr, ptr0, len0);
+        _assertClass(input, Memory);
+        wasm.gunzip(retptr, input.__wbg_ptr);
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
-        var r3 = getInt32Memory0()[retptr / 4 + 3];
-        if (r3) {
-            throw takeObject(r2);
+        if (r2) {
+            throw takeObject(r1);
         }
-        var v2 = new Slice(r0, r1);
-        ;
-        return v2;
+        return Memory.__wrap(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+let WASM_VECTOR_LEN = 0;
+
+function passArray8ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 1, 1) >>> 0;
+    getUint8Memory0().set(arg, ptr / 1);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
+function isLikeNone(x) {
+    return x === undefined || x === null;
+}
+/**
+* @param {Memory} input
+* @param {number | undefined} compression
+* @returns {Memory}
+*/
+export function deflate(input, compression) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        _assertClass(input, Memory);
+        wasm.deflate(retptr, input.__wbg_ptr, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return Memory.__wrap(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+* @param {Memory} input
+* @param {number | undefined} compression
+* @returns {Memory}
+*/
+export function zlib(input, compression) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        _assertClass(input, Memory);
+        wasm.zlib(retptr, input.__wbg_ptr, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return Memory.__wrap(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+* @param {Memory} input
+* @param {number | undefined} compression
+* @returns {Memory}
+*/
+export function gzip(input, compression) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        _assertClass(input, Memory);
+        wasm.gzip(retptr, input.__wbg_ptr, !isLikeNone(compression), isLikeNone(compression) ? 0 : compression);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return Memory.__wrap(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+* @param {Memory} input
+* @returns {Memory}
+*/
+export function inflate(input) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        _assertClass(input, Memory);
+        wasm.inflate(retptr, input.__wbg_ptr);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return Memory.__wrap(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+* @param {Memory} input
+* @returns {Memory}
+*/
+export function unzlib(input) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        _assertClass(input, Memory);
+        wasm.unzlib(retptr, input.__wbg_ptr);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return Memory.__wrap(r0);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
     }
@@ -244,7 +211,6 @@ export class DeflateDecoder {
         ptr = ptr >>> 0;
         const obj = Object.create(DeflateDecoder.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -256,20 +222,11 @@ export class DeflateDecoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
-    }
-
     [Symbol.dispose]() {
         this.free()
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflatedecoder_free(ptr);
     }
@@ -280,14 +237,13 @@ export class DeflateDecoder {
         return DeflateDecoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.deflatedecoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.deflatedecoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -313,23 +269,14 @@ export class DeflateDecoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.deflatedecoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
@@ -339,13 +286,10 @@ export class DeflateDecoder {
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -359,7 +303,6 @@ export class DeflateEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(DeflateEncoder.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -371,20 +314,11 @@ export class DeflateEncoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
-    }
-
     [Symbol.dispose]() {
         this.free()
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_deflateencoder_free(ptr);
     }
@@ -396,14 +330,13 @@ export class DeflateEncoder {
         return DeflateEncoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.deflateencoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.deflateencoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -429,23 +362,14 @@ export class DeflateEncoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.deflatedecoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
@@ -455,13 +379,10 @@ export class DeflateEncoder {
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -475,7 +396,6 @@ export class GzDecoder {
         ptr = ptr >>> 0;
         const obj = Object.create(GzDecoder.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -487,20 +407,11 @@ export class GzDecoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
-    }
-
     [Symbol.dispose]() {
         this.free()
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzdecoder_free(ptr);
     }
@@ -511,14 +422,13 @@ export class GzDecoder {
         return GzDecoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.gzdecoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.gzdecoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -544,23 +454,14 @@ export class GzDecoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.deflatedecoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
@@ -570,13 +471,10 @@ export class GzDecoder {
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -590,7 +488,6 @@ export class GzEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(GzEncoder.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -602,20 +499,11 @@ export class GzEncoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
-    }
-
     [Symbol.dispose]() {
         this.free()
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_gzencoder_free(ptr);
     }
@@ -627,14 +515,13 @@ export class GzEncoder {
         return GzEncoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.gzencoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.gzencoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -660,23 +547,14 @@ export class GzEncoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.gzencoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.gzencoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
@@ -686,13 +564,10 @@ export class GzEncoder {
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -700,13 +575,14 @@ export class GzEncoder {
 }
 /**
 */
-export class ZlibDecoder {
+export class Memory {
 
-    static __wrap(ptr) {
+    static __wrap(ptr, ptr0, len0) {
         ptr = ptr >>> 0;
-        const obj = Object.create(ZlibDecoder.prototype);
+        const obj = Object.create(Memory.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
+        obj.__wbg_ptr0 = ptr0;
+        obj.__wbg_len0 = len0;
 
         return obj;
     }
@@ -718,9 +594,68 @@ export class ZlibDecoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_memory_free(ptr);
+    }
+    /**
+    * @param {Uint8Array} inner
+    */
+    constructor(inner) {
+        const ptr0 = passArray8ToWasm0(inner, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.memory_new(ptr0, len0);
+        return Memory.__wrap(ret, ptr0, len0);
+    }
+    /**
+    * @returns {number}
+    */
+    ptr() {
+        return this.__wbg_ptr0 ??= wasm.memory_ptr(this.__wbg_ptr);
+    }
+    /**
+    * @returns {number}
+    */
+    len() {
+        return this.__wbg_len0 ??= wasm.memory_len(this.__wbg_ptr);
+    }
+
+    freeNextTick() {
+        setTimeout(() => this.free(), 0);
+        return this;
+    }
+
+    get bytes() {
+        return getUint8Memory0().subarray(this.ptr(), this.ptr() + this.len());
+    }
+    
+    copyAndDispose() {
+        const bytes = this.bytes.slice();
+        this.free();
+        return bytes;
+    }
+}
+/**
+*/
+export class ZlibDecoder {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(ZlibDecoder.prototype);
+        obj.__wbg_ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+
+        return ptr;
     }
 
     [Symbol.dispose]() {
@@ -728,10 +663,6 @@ export class ZlibDecoder {
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibdecoder_free(ptr);
     }
@@ -742,14 +673,13 @@ export class ZlibDecoder {
         return ZlibDecoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.deflatedecoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.deflatedecoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -775,23 +705,14 @@ export class ZlibDecoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.deflatedecoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
@@ -801,13 +722,10 @@ export class ZlibDecoder {
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -821,7 +739,6 @@ export class ZlibEncoder {
         ptr = ptr >>> 0;
         const obj = Object.create(ZlibEncoder.prototype);
         obj.__wbg_ptr = ptr;
-        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -833,20 +750,11 @@ export class ZlibEncoder {
         return ptr;
     }
 
-  
-    get freed() {
-        return this.__wbg_freed
-    }
-
     [Symbol.dispose]() {
         this.free()
     }
 
     free() {
-        if (this.__wbg_freed)
-            return
-        this.__wbg_freed = true
-
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_zlibencoder_free(ptr);
     }
@@ -858,14 +766,13 @@ export class ZlibEncoder {
         return ZlibEncoder.__wrap(ret);
     }
     /**
-    * @param {Box<Copiable>} input
+    * @param {Memory} input
     */
     write(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.deflateencoder_write(retptr, this.__wbg_ptr, ptr0, len0);
+            _assertClass(input, Memory);
+            wasm.deflateencoder_write(retptr, this.__wbg_ptr, input.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             if (r1) {
@@ -891,39 +798,27 @@ export class ZlibEncoder {
         }
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     read() {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.deflatedecoder_read(retptr, this.__wbg_ptr);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
+        const ret = wasm.deflatedecoder_read(this.__wbg_ptr);
+        return Memory.__wrap(ret);
     }
     /**
-    * @returns {Slice}
+    * @returns {Memory}
     */
     finish() {
         try {
             const ptr = this.__destroy_into_raw();
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.zlibencoder_finish(retptr, ptr);
+            wasm.deflateencoder_finish(retptr, ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
-            var r3 = getInt32Memory0()[retptr / 4 + 3];
-            if (r3) {
-                throw takeObject(r2);
+            if (r2) {
+                throw takeObject(r1);
             }
-            var v1 = new Slice(r0, r1);
-            ;
-            return v1;
+            return Memory.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -1026,58 +921,3 @@ export async function __wbg_init(input) {
 
 export { initSync }
 export default __wbg_init;
-
-
-export class Slice {
-
-  #freed = false
-
-  /**
-   * @param {number} ptr 
-   * @param {number} len 
-   **/
-  constructor(ptr, len) {
-    this.ptr = ptr
-    this.len = len
-    this.start = (ptr >>> 0) / 1
-    this.end = this.start + len
-  }
-
-  /**
-   * @returns {void}
-   **/
-  [Symbol.dispose]() {
-    this.free()
-  }
-
-  /**
-   * @returns {Uint8Array}
-   **/
-  get bytes() {
-    return getUint8Memory0().subarray(this.start, this.end)
-  }
-
-  get freed() {
-    return this.#freed
-  }
-
-  /**
-   * @returns {void}
-   **/
-  free() {
-    if (this.#freed)
-      return
-    this.#freed = true
-    wasm.__wbindgen_free(this.ptr, this.len * 1);
-  }
-
-  /**
-   * @returns {Copied}
-   **/
-  copyAndDispose() {
-    const bytes = this.bytes.slice()
-    this.free()
-    return new Copied(bytes)
-  }
-
-}

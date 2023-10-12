@@ -1,262 +1,271 @@
-
-import type { Box, Copiable, Copied } from "@hazae41/box"
-
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
+* @returns {Memory}
+*/
+export function gunzip(input: Memory): Memory;
+/**
+* @param {Memory} input
 * @param {number | undefined} compression
-* @returns {Slice}
+* @returns {Memory}
 */
-export function deflate(input: Box<Copiable>, compression?: number): Slice;
+export function deflate(input: Memory, compression?: number): Memory;
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @param {number | undefined} compression
-* @returns {Slice}
+* @returns {Memory}
 */
-export function zlib(input: Box<Copiable>, compression?: number): Slice;
+export function zlib(input: Memory, compression?: number): Memory;
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @param {number | undefined} compression
-* @returns {Slice}
+* @returns {Memory}
 */
-export function gzip(input: Box<Copiable>, compression?: number): Slice;
+export function gzip(input: Memory, compression?: number): Memory;
 /**
-* @param {Uint8Array} input
-* @returns {Slice}
+* @param {Memory} input
+* @returns {Memory}
 */
-export function inflate(input: Box<Copiable>): Slice;
+export function inflate(input: Memory): Memory;
 /**
-* @param {Uint8Array} input
-* @returns {Slice}
+* @param {Memory} input
+* @returns {Memory}
 */
-export function unzlib(input: Box<Copiable>): Slice;
-/**
-* @param {Uint8Array} input
-* @returns {Slice}
-*/
-export function gunzip(input: Box<Copiable>): Slice;
+export function unzlib(input: Memory): Memory;
 /**
 */
 export class DeflateDecoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 */
   constructor();
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
 }
 /**
 */
 export class DeflateEncoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 * @param {number | undefined} compression
 */
   constructor(compression?: number);
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
 }
 /**
 */
 export class GzDecoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 */
   constructor();
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
 }
 /**
 */
 export class GzEncoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 * @param {number | undefined} compression
 */
   constructor(compression?: number);
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
+}
+/**
+*/
+export class Memory {
+  [Symbol.dispose](): void
+  free(): void;
+/**
+* @param {Uint8Array} inner
+*/
+  constructor(inner: Uint8Array);
+/**
+* @returns {number}
+*/
+  ptr(): number;
+/**
+* @returns {number}
+*/
+  len(): number;
+
+  /**
+   * Free on next tick
+   **/
+  freeNextTick(): Memory
+
+  /**
+   * Get the bytes in memory
+   **/
+  get bytes(): Uint8Array
+
+  /**
+   * Copy the bytes and free them
+   **/
+  copyAndDispose(): Uint8Array
 }
 /**
 */
 export class ZlibDecoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 */
   constructor();
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
 }
 /**
 */
 export class ZlibEncoder {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
 * @param {number | undefined} compression
 */
   constructor(compression?: number);
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 */
-  write(input: Box<Copiable>): void;
+  write(input: Memory): void;
 /**
 */
   flush(): void;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  read(): Slice;
+  read(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  finish(): Slice;
+  finish(): Memory;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly deflate: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly __wbg_deflateencoder_free: (a: number) => void;
-  readonly deflateencoder_new: (a: number, b: number) => number;
-  readonly deflateencoder_write: (a: number, b: number, c: number, d: number) => void;
-  readonly deflateencoder_flush: (a: number, b: number) => void;
-  readonly deflateencoder_finish: (a: number, b: number) => void;
-  readonly zlib: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly zlibencoder_new: (a: number, b: number) => number;
-  readonly zlibencoder_finish: (a: number, b: number) => void;
-  readonly gzip: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly __wbg_gzencoder_free: (a: number) => void;
-  readonly gzencoder_new: (a: number, b: number) => number;
-  readonly gzencoder_write: (a: number, b: number, c: number, d: number) => void;
-  readonly gzencoder_flush: (a: number, b: number) => void;
-  readonly gzencoder_read: (a: number, b: number) => void;
-  readonly gzencoder_finish: (a: number, b: number) => void;
-  readonly inflate: (a: number, b: number, c: number) => void;
-  readonly __wbg_deflatedecoder_free: (a: number) => void;
-  readonly deflatedecoder_new: () => number;
-  readonly deflatedecoder_write: (a: number, b: number, c: number, d: number) => void;
-  readonly deflatedecoder_flush: (a: number, b: number) => void;
-  readonly deflatedecoder_read: (a: number, b: number) => void;
-  readonly deflatedecoder_finish: (a: number, b: number) => void;
-  readonly unzlib: (a: number, b: number, c: number) => void;
-  readonly zlibdecoder_new: () => number;
-  readonly gunzip: (a: number, b: number, c: number) => void;
+  readonly gunzip: (a: number, b: number) => void;
   readonly __wbg_gzdecoder_free: (a: number) => void;
   readonly gzdecoder_new: () => number;
-  readonly gzdecoder_write: (a: number, b: number, c: number, d: number) => void;
+  readonly gzdecoder_write: (a: number, b: number, c: number) => void;
   readonly gzdecoder_flush: (a: number, b: number) => void;
   readonly gzdecoder_finish: (a: number, b: number) => void;
-  readonly zlibencoder_read: (a: number, b: number) => void;
-  readonly deflateencoder_read: (a: number, b: number) => void;
-  readonly zlibdecoder_read: (a: number, b: number) => void;
-  readonly gzdecoder_read: (a: number, b: number) => void;
+  readonly __wbg_memory_free: (a: number) => void;
+  readonly memory_new: (a: number, b: number) => number;
+  readonly memory_ptr: (a: number) => number;
+  readonly memory_len: (a: number) => number;
+  readonly deflate: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbg_deflateencoder_free: (a: number) => void;
+  readonly deflateencoder_new: (a: number, b: number) => number;
+  readonly deflateencoder_write: (a: number, b: number, c: number) => void;
+  readonly deflateencoder_flush: (a: number, b: number) => void;
+  readonly deflateencoder_finish: (a: number, b: number) => void;
+  readonly zlib: (a: number, b: number, c: number, d: number) => void;
+  readonly zlibencoder_new: (a: number, b: number) => number;
+  readonly gzip: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbg_gzencoder_free: (a: number) => void;
+  readonly gzencoder_new: (a: number, b: number) => number;
+  readonly gzencoder_write: (a: number, b: number, c: number) => void;
+  readonly gzencoder_flush: (a: number, b: number) => void;
+  readonly gzencoder_read: (a: number) => number;
+  readonly gzencoder_finish: (a: number, b: number) => void;
+  readonly inflate: (a: number, b: number) => void;
+  readonly __wbg_deflatedecoder_free: (a: number) => void;
+  readonly deflatedecoder_new: () => number;
+  readonly deflatedecoder_write: (a: number, b: number, c: number) => void;
+  readonly deflatedecoder_flush: (a: number, b: number) => void;
+  readonly deflatedecoder_read: (a: number) => number;
+  readonly deflatedecoder_finish: (a: number, b: number) => void;
+  readonly unzlib: (a: number, b: number) => void;
+  readonly zlibdecoder_new: () => number;
   readonly zlibencoder_flush: (a: number, b: number) => void;
   readonly zlibdecoder_flush: (a: number, b: number) => void;
+  readonly gzdecoder_read: (a: number) => number;
+  readonly zlibencoder_read: (a: number) => number;
+  readonly deflateencoder_read: (a: number) => number;
+  readonly zlibdecoder_read: (a: number) => number;
   readonly __wbg_zlibdecoder_free: (a: number) => void;
-  readonly zlibencoder_write: (a: number, b: number, c: number, d: number) => void;
-  readonly zlibdecoder_write: (a: number, b: number, c: number, d: number) => void;
-  readonly __wbg_zlibencoder_free: (a: number) => void;
+  readonly zlibencoder_write: (a: number, b: number, c: number) => void;
+  readonly zlibdecoder_write: (a: number, b: number, c: number) => void;
+  readonly zlibencoder_finish: (a: number, b: number) => void;
   readonly zlibdecoder_finish: (a: number, b: number) => void;
+  readonly __wbg_zlibencoder_free: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
@@ -279,39 +288,3 @@ export function initSync(module: SyncInitInput): InitOutput;
 * @returns {Promise<InitOutput>}
 */
 export function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
-
-
-export class Slice {
-
-  readonly ptr: number
-
-  readonly len: number
-
-  constructor(ptr: number, len: number);
-
-  /**
-   * Free the bytes
-   **/
-  [Symbol.dispose](): void
-
-  /**
-   * Get the bytes in memory
-   **/
-  get bytes(): Uint8Array
-
-  /**
-   * Is the memory freed?
-   **/
-  get freed(): boolean
-
-  /**
-   * Free the bytes (do nothing if already freed)
-   **/
-  free(): void
-
-  /**
-   * Copy the bytes and free them
-   **/
-  copyAndDispose(): Copied
-
-}

@@ -1,21 +1,20 @@
-import { Box, Copiable, Copied } from "@hazae41/box";
 import { assert, test } from "@hazae41/phobos";
 import { readFileSync } from "fs";
-import { DeflateDecoder, DeflateEncoder, GzDecoder, GzEncoder, Slice, ZlibDecoder, ZlibEncoder, deflate, gunzip, gzip, inflate, initBundledOnce, unzlib, zlib } from "./index.js";
+import { DeflateDecoder, DeflateEncoder, GzDecoder, GzEncoder, Memory, ZlibDecoder, ZlibEncoder, deflate, gunzip, gzip, inflate, initBundledOnce, unzlib, zlib } from "./index.js";
 
 type Coder =
-  (buffer: Box<Copiable>, compression?: number) => Slice
+  (buffer: Memory, compression?: number) => Memory
 
 interface StreamCoder {
-  write(x: Box<Copiable>): void
+  write(x: Memory): void
   flush(): void
-  read(): Slice
-  finish(): Slice
+  read(): Memory
+  finish(): Memory
 }
 
 function equals(a: Uint8Array, b: Uint8Array) {
-  const ba = Buffer.from(a.buffer)
-  const bb = Buffer.from(b.buffer)
+  const ba = Buffer.from(a)
+  const bb = Buffer.from(b)
 
   return ba.equals(bb)
 }
@@ -28,16 +27,16 @@ function compressStream(compresser: StreamCoder, decompressed: Uint8Array) {
 
   while (roffset < decompressed.length) {
     const end = Math.min(roffset + 1000, decompressed.length)
-    compresser.write(new Box(new Copied(decompressed.subarray(roffset, end))))
+    compresser.write(new Memory(decompressed.subarray(roffset, end)))
     compresser.flush()
     roffset = end
 
-    const block = compresser.read().copyAndDispose().bytes
+    const block = compresser.read().copyAndDispose()
     compressed.set(block, woffset)
     woffset += block.length
   }
 
-  const finish = compresser.finish().copyAndDispose().bytes
+  const finish = compresser.finish().copyAndDispose()
   compressed.set(finish, woffset)
   woffset += finish.length
 
@@ -52,16 +51,16 @@ function decompressStream(decompresser: StreamCoder, compressed: Uint8Array, ori
 
   while (roffset < compressed.length) {
     const end = Math.min(roffset + 1000, compressed.length)
-    decompresser.write(new Box(new Copied(compressed.subarray(roffset, end))))
+    decompresser.write(new Memory(compressed.subarray(roffset, end)))
     decompresser.flush()
     roffset = end
 
-    const block = decompresser.read().copyAndDispose().bytes
+    const block = decompresser.read().copyAndDispose()
     decompressed.set(block, woffset)
     woffset += block.length
   }
 
-  const finish = decompresser.finish().copyAndDispose().bytes
+  const finish = decompresser.finish().copyAndDispose()
   decompressed.set(finish, woffset)
   woffset += finish.length
 
@@ -72,7 +71,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
   const original = readFileSync("./test/lorem.txt")
 
   const compressed = compressStream(compresser, original)
-  const decompressed = decompresser(new Box(new Copied(compressed))).copyAndDispose().bytes
+  const decompressed = decompresser(new Memory(compressed)).copyAndDispose()
 
   assert(equals(decompressed, original), `decompress(compress_stream(input)) should be equals to input`)
 }
@@ -80,7 +79,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
 function assertDecompressStream(compresser: Coder, decompresser: StreamCoder) {
   const original = readFileSync("./test/lorem.txt")
 
-  const compressed = compresser(new Box(new Copied(original))).copyAndDispose().bytes
+  const compressed = compresser(new Memory(original)).copyAndDispose()
   const decompressed = decompressStream(decompresser, compressed, original)
 
   assert(equals(decompressed, original), `decompress_stream(compress(input)) should be equals to input`)

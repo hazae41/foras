@@ -1,11 +1,11 @@
 extern crate alloc;
 
-use alloc::vec::Vec;
-
 use wasm_bindgen::prelude::*;
 
+use crate::Memory;
+
 #[wasm_bindgen]
-pub fn gzip(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsError> {
+pub fn gzip(input: &Memory, compression: Option<u32>) -> Result<Memory, JsError> {
     use std::io::Write;
 
     let _compression = compression
@@ -14,8 +14,8 @@ pub fn gzip(input: &[u8], compression: Option<u32>) -> Result<Vec<u8>, JsError> 
 
     let mut encoder = flate2::write::GzEncoder::new(Vec::new(), _compression);
 
-    encoder.write_all(input).map_err(JsError::from)?;
-    encoder.finish().map_err(JsError::from)
+    encoder.write_all(&input.inner).map_err(JsError::from)?;
+    encoder.finish().map(Memory::new).map_err(JsError::from)
 }
 
 #[wasm_bindgen]
@@ -38,10 +38,10 @@ impl GzEncoder {
     }
 
     #[wasm_bindgen]
-    pub fn write(&mut self, input: &[u8]) -> Result<(), JsError> {
+    pub fn write(&mut self, input: &Memory) -> Result<(), JsError> {
         use std::io::Write;
 
-        self.inner.write_all(input).map_err(JsError::from)
+        self.inner.write_all(&input.inner).map_err(JsError::from)
     }
 
     #[wasm_bindgen]
@@ -52,16 +52,16 @@ impl GzEncoder {
     }
 
     #[wasm_bindgen]
-    pub fn read(&mut self) -> Vec<u8> {
+    pub fn read(&mut self) -> Memory {
         let output = self.inner.get_ref().to_vec();
 
         self.inner.get_mut().clear();
 
-        output
+        Memory::new(output)
     }
 
     #[wasm_bindgen]
-    pub fn finish(self) -> Result<Vec<u8>, JsError> {
-        self.inner.finish().map_err(JsError::from)
+    pub fn finish(self) -> Result<Memory, JsError> {
+        self.inner.finish().map(Memory::new).map_err(JsError::from)
     }
 }

@@ -1,20 +1,20 @@
 import { Buffer } from "https://deno.land/std@0.170.0/node/buffer.ts";
 import { assert, test } from "npm:@hazae41/phobos";
-import { DeflateDecoder, DeflateEncoder, GzDecoder, GzEncoder, Slice, ZlibDecoder, ZlibEncoder, deflate, gunzip, gzip, inflate, initBundledOnce, unzlib, zlib } from "./mod.ts";
+import { DeflateDecoder, DeflateEncoder, GzDecoder, GzEncoder, Memory, ZlibDecoder, ZlibEncoder, deflate, gunzip, gzip, inflate, initBundledOnce, unzlib, zlib } from "./mod.ts";
 
 type Coder =
-  (buffer: Uint8Array, compression?: number) => Slice
+  (buffer: Memory, compression?: number) => Memory
 
 interface StreamCoder {
-  write(x: Uint8Array): void
+  write(x: Memory): void
   flush(): void
-  read(): Slice
-  finish(): Slice
+  read(): Memory
+  finish(): Memory
 }
 
 function equals(a: Uint8Array, b: Uint8Array) {
-  const ba = Buffer.from(a.buffer)
-  const bb = Buffer.from(b.buffer)
+  const ba = Buffer.from(a)
+  const bb = Buffer.from(b)
 
   return ba.equals(bb)
 }
@@ -27,7 +27,7 @@ function compressStream(compresser: StreamCoder, decompressed: Uint8Array) {
 
   while (roffset < decompressed.length) {
     const end = Math.min(roffset + 1000, decompressed.length)
-    compresser.write(decompressed.subarray(roffset, end))
+    compresser.write(new Memory(decompressed.subarray(roffset, end)))
     compresser.flush()
     roffset = end
 
@@ -51,7 +51,7 @@ function decompressStream(decompresser: StreamCoder, compressed: Uint8Array, ori
 
   while (roffset < compressed.length) {
     const end = Math.min(roffset + 1000, compressed.length)
-    decompresser.write(compressed.subarray(roffset, end))
+    decompresser.write(new Memory(compressed.subarray(roffset, end)))
     decompresser.flush()
     roffset = end
 
@@ -71,7 +71,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
   const original = Deno.readFileSync("./test/lorem.txt")
 
   const compressed = compressStream(compresser, original)
-  const decompressed = decompresser(compressed).copyAndDispose()
+  const decompressed = decompresser(new Memory(compressed)).copyAndDispose()
 
   assert(equals(decompressed, original), `decompress(compress_stream(input)) should be equals to input`)
 }
@@ -79,7 +79,7 @@ function assertCompressStream(compresser: StreamCoder, decompresser: Coder) {
 function assertDecompressStream(compresser: Coder, decompresser: StreamCoder) {
   const original = Deno.readFileSync("./test/lorem.txt")
 
-  const compressed = compresser(original).copyAndDispose()
+  const compressed = compresser(new Memory(original)).copyAndDispose()
   const decompressed = decompressStream(decompresser, compressed, original)
 
   assert(equals(decompressed, original), `decompress_stream(compress(input)) should be equals to input`)
