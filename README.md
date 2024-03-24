@@ -7,6 +7,8 @@
 
 WebAssembly port of Deflate, Gzip, and Zlib compression algorithms
 
+**DEPRECATED**: You should use native [Compression Streams](https://developer.mozilla.org/en-US/docs/Web/API/Compression_Streams_API) instead
+
 ```bash
 npm i @hazae41/foras
 ```
